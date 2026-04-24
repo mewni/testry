@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV — Mewni Alahakoon</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.page-head {
+  padding: clamp(3rem, 7vw, 5rem) 0 clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--rule);
+}
+.page-head h1 {
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 1;
+}
+.page-head h1 em { color: var(--crimson); font-family: var(--ff-display); font-variation-settings: "opsz" 144, "WONK" 1;}
+.page-head-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: clamp(1.5rem, 4vw, 3rem);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.page-head-meta .mono { color: var(--ink-mute); font-size: 0.72rem; }
+
+/* CV top actions */
+.cv-actions-bar {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.cv-actions-bar .stamp {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+.cv-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+/* CV document */
+.cv-doc {
+  padding: clamp(2rem, 5vw, 4rem) 0;
+}
+.cv-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+@media (max-width: 820px) { .cv-layout { grid-template-columns: 1fr; } }
+
+.cv-side {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.cv-side nav { display: flex; flex-direction: column; gap: 0.05rem; }
+.cv-side nav a {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  text-decoration: none;
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed rgba(26,23,20,0.2);
+  transition: color 0.2s ease, padding 0.2s ease;
+}
+.cv-side nav a:hover { color: var(--crimson); padding-left: 0.5rem; }
+
+.cv-side .cv-contact {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--ff-serif);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+/* CV content sections */
+.cv-section {
+  padding-bottom: 2.5rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+.cv-section:last-child { border-bottom: 0; }
+
+.cv-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(26,23,20,0.2);
+}
+.cv-section-head h2 {
+  font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+  font-variation-settings: "opsz" 80, "WONK" 1;
+}
+.cv-section-head .mono {
+  color: var(--crimson);
+  font-size: 0.68rem;
+}
+
+/* CV entry — date column + content */
+.cv-entry {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px dashed rgba(26,23,20,0.15);
+}
+.cv-entry:last-child { border-bottom: 0; }
+@media (max-width: 600px) {
+  .cv-entry { grid-template-columns: 1fr; gap: 0.2rem; }
+}
+
+.cv-date {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  padding-top: 4px;
+}
+
+.cv-entry h3 {
+  font-family: var(--ff-display);
+  font-size: 1.2rem;
+  font-variation-settings: "opsz" 30, "WONK" 1;
+  margin-bottom: 0.25rem;
+}
+.cv-entry .inst {
+  font-family: var(--ff-serif);
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+.cv-entry p {
+  font-size: 0.97rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin-bottom: 0.3rem;
+}
+.cv-entry ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.4rem;
+}
+.cv-entry ul li {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  padding: 0.15rem 0 0.15rem 1.2rem;
+  position: relative;
+  line-height: 1.55;
+}
+.cv-entry ul li::before {
+  content: '·';
+  position: absolute;
+  left: 0.3rem;
+  color: var(--crimson);
+  font-weight: bold;
+}
+
+/* Inline details for honours / talks */
+.cv-simple {
+  display: grid;
+  grid-template-columns: 140px 1fr auto;
+  gap: 1.5rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px dashed rgba(26,23,20,0.15);
+  align-items: baseline;
+}
+.cv-simple:last-child { border-bottom: 0; }
+@media (max-width: 600px) { .cv-simple { grid-template-columns: 1fr; gap: 0.2rem; } }
+.cv-simple .t {
+  font-family: var(--ff-display);
+  font-size: 1.02rem;
+  font-variation-settings: "opsz" 30, "WONK" 1;
+}
+.cv-simple .s {
+  font-family: var(--ff-serif);
+  font-style: italic;
+  color: var(--ink-mute);
+  font-size: 0.9rem;
+}
+
+/* Skill grid */
+.cv-skills {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem 2.5rem;
+}
+@media (max-width: 600px) { .cv-skills { grid-template-columns: 1fr; } }
+.cv-skills .row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed rgba(26,23,20,0.15);
+}
+.cv-skills .row .label {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  padding-top: 3px;
+}
+.cv-skills .row .val {
+  font-family: var(--ff-serif);
+  font-size: 0.97rem;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+/* Print styles */
+@media print {
+  body { background: white; }
+  body::before, body::after { display: none; }
+  .masthead, footer, .cv-actions-bar, .cv-side { display: none !important; }
+  .cv-layout { grid-template-columns: 1fr; }
+  .cv-section { break-inside: avoid; }
+}
+</style>
+<script>
+/* Seamless page-transition primer — must run before <body>
+<div class="page-curtain-stage" aria-hidden="true">
+  <div class="pc-label">
+    <span class="pc-rule"></span>
+    <span class="pc-section"></span>
+    <h2 class="pc-name"></h2>
+    <span class="pc-meta"></span>
+  </div>
+</div>
+ paints.
+   If the URL hash starts with #__pc= we're arriving from another page:
+   flag the document root so the curtain overlay is opaque immediately. */
+(function () {
+  try {
+    var m = window.location.hash.match(/^#__pc=([a-z0-9._-]+)/i);
+    if (m) {
+      document.documentElement.classList.add('pc-incoming');
+      window.__pcIncomingKey = m[1];
+    }
+  } catch (_) {}
+})();
+</script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
+        <rect x="2" y="2" width="36" height="36" stroke="#1a1714" stroke-width="1.5"/>
+        <path d="M10 28 L10 12 L20 22 L30 12 L30 28" stroke="#a8321c" stroke-width="2" fill="none" stroke-linejoin="miter"/>
+        <circle cx="20" cy="30" r="1.5" fill="#a8321c"/>
+      </svg>
+      <div>
+        <div class="brand-name">Mewni Alahakoon</div>
+        <div class="brand-sub">Cybersecurity · Research Portfolio</div>
+      </div>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navList').classList.toggle('open')">Menu</button>
+    <nav>
+      <ul class="nav-list" id="navList">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="cv.html" class="active">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="wrap page-head">
+    <div class="page-head-meta reveal reveal-1">
+      <span class="mono">PAGE V · CURRICULUM VITAE</span>
+      <span class="mono">LAST REVISED · APR 2026</span>
+    </div>
+    <div class="eyebrow reveal reveal-1">A formal record</div>
+    <h1 class="reveal reveal-2">Curriculum <em>vitae</em>.</h1>
+  </section>
+
+  <!-- ACTIONS -->
+  <section class="wrap cv-actions-bar">
+    <span class="stamp">Mewni Alahakoon · Cybersecurity · Colombo, Sri Lanka · 2026</span>
+    <div class="cv-actions">
+      <a class="btn" href="#" onclick="window.print(); return false;">Download PDF ↓</a>
+      <a class="btn btn-ghost" href="contact.html">Request full copy →</a>
+    </div>
+  </section>
+
+  <section class="wrap cv-doc">
+    <div class="cv-layout">
+      <aside class="cv-side">
+        <nav>
+          <a href="#education">01 · Education</a>
+          <a href="#experience">02 · Experience</a>
+          <a href="#publications-cv">03 · Publications</a>
+          <a href="#honours">04 · Honours</a>
+          <a href="#talks">05 · Talks</a>
+          <a href="#teaching">06 · Teaching</a>
+          <a href="#service">07 · Service</a>
+          <a href="#skills">08 · Skills</a>
+          <a href="#referees">09 · Referees</a>
+        </nav>
+        <div class="cv-contact">
+          <strong>Mewni Alahakoon</strong><br>
+          Negombo, LK<br>
+          mewni@research.example<br>
+          ORCID: 0000-0002-XXXX-XXXX
+        </div>
+      </aside>
+
+      <div>
+
+        <!-- EDUCATION -->
+        <section id="education" class="cv-section">
+          <div class="cv-section-head">
+            <h2>Education</h2>
+            <span class="mono">§ 01</span>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">2026 — ONGOING</div>
+            <div>
+              <h3>PhD applicant · Cybersecurity</h3>
+              <div class="inst">Applications under review · 2026–27 cycle</div>
+              <p>Applying to doctoral programmes in trustworthy machine learning and applied cryptography across US / EU institutions.</p>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">2020 — 2023</div>
+            <div>
+              <h3>BSc (Hons) · Computer Science</h3>
+              <div class="inst">First Class Honours · GPA 3.94 / 4.00</div>
+              <p>Specialisation: Systems &amp; Security. Thesis: <em>"Empirical Evaluation of Evasion Attacks on Small-Model Intrusion Detectors"</em> &mdash; supervised by Prof. [redacted]. Awarded departmental thesis prize.</p>
+              <ul>
+                <li>Relevant coursework: Applied Cryptography, Advanced Algorithms, Network Security, Probabilistic Models, Compilers</li>
+                <li>Top 3% of graduating cohort; Dean's List every semester</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience" class="cv-section">
+          <div class="cv-section-head">
+            <h2>Research &amp; Experience</h2>
+            <span class="mono">§ 02</span>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">2024 — PRESENT</div>
+            <div>
+              <h3>Research Assistant</h3>
+              <div class="inst">Security Systems Lab · Partner institution, Colombo</div>
+              <ul>
+                <li>Lead contributor on a workshop paper examining certified robustness for small-model intrusion classifiers (AsiaCCS '26, to appear).</li>
+                <li>Co-authored a deployment-oriented survey of post-quantum migration strategies (South Asian J. of Cybersecurity, 2025).</li>
+                <li>Maintain the lab's internal replication pipeline for adversarial ML experiments.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">2023 — 2024</div>
+            <div>
+              <h3>Junior Security Engineer (part-time)</h3>
+              <div class="inst">[Company name redacted on request]</div>
+              <ul>
+                <li>Conducted vulnerability assessments and wrote internal advisories for a mid-sized enterprise environment.</li>
+                <li>Developed anomaly-detection tooling for network telemetry using lightweight tree-ensemble models.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">2022 — 2023</div>
+            <div>
+              <h3>Undergraduate Thesis Researcher</h3>
+              <div class="inst">Department of Computer Science</div>
+              <p>Conducted a year-long empirical study of evasion attacks against lightweight IDS models across five public datasets. Thesis awarded departmental prize.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- PUBLICATIONS (abbreviated) -->
+        <section id="publications-cv" class="cv-section">
+          <div class="cv-section-head">
+            <h2>Selected Publications</h2>
+            <span class="mono">§ 03 · FULL LIST: <a href="publications.html" style="color: var(--crimson);">here →</a></span>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">2026</div>
+            <div>
+              <h3>Certified Defences for Lightweight Intrusion Detection in Constrained IoT Deployments</h3>
+              <div class="inst"><strong>M. Alahakoon</strong>, A. Fernando, R. Perera &mdash; <em>AsiaCCS Workshop</em>, to appear</div>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">2025</div>
+            <div>
+              <h3>Hybrid Key-Exchange Migration Strategies: A Deployment-Oriented Survey</h3>
+              <div class="inst">J. Wickramasinghe, <strong>M. Alahakoon</strong>, N. Jayawardena &mdash; <em>South Asian J. of Cybersecurity</em>, 7(2)</div>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">2025</div>
+            <div>
+              <h3>Evaluating Evasion Robustness in Small-Model Network Classifiers</h3>
+              <div class="inst"><strong>M. Alahakoon</strong>, P. Gunasekara &mdash; <em>Int'l Conf. on Network &amp; Systems Security</em> (NSS)</div>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">2024</div>
+            <div>
+              <h3>An Empirical Threat Model for Smart-Home Deployments</h3>
+              <div class="inst"><strong>M. Alahakoon</strong>, T. de Silva, M. Herath &mdash; <em>IEEE ASSET Workshop</em> &mdash; Best-paper runner-up</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- HONOURS -->
+        <section id="honours" class="cv-section">
+          <div class="cv-section-head">
+            <h2>Honours &amp; Awards</h2>
+            <span class="mono">§ 04</span>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">2024</div>
+            <div class="t">Best-paper runner-up, IEEE ASSET Workshop</div>
+            <div class="s">Smart-environment threat modelling</div>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">2023</div>
+            <div class="t">Departmental Thesis Prize</div>
+            <div class="s">Highest-rated thesis, Computer Science</div>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">2020 — 23</div>
+            <div class="t">Dean's List · 6 consecutive semesters</div>
+            <div class="s">Sustained academic distinction</div>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">2022</div>
+            <div class="t">Residential Cryptography Workshop (travel award)</div>
+            <div class="s">Competitive admission</div>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">2020</div>
+            <div class="t">University entrance scholarship</div>
+            <div class="s">Merit-based</div>
+          </div>
+        </section>
+
+        <!-- TALKS -->
+        <section id="talks" class="cv-section">
+          <div class="cv-section-head">
+            <h2>Invited Talks &amp; Presentations</h2>
+            <span class="mono">§ 05</span>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">NOV · 2025</div>
+            <div class="t">Adversarial Robustness Benchmarks &mdash; What Counts?</div>
+            <div class="s">Sri Lankan Cyber Security Forum</div>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">AUG · 2025</div>
+            <div class="t">PQC Migration in Practice</div>
+            <div class="s">Regional SysAdmin Meetup</div>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">JUN · 2025</div>
+            <div class="t">Paper presentation &mdash; Evasion in Small-Model IDS</div>
+            <div class="s">NSS Conference '25</div>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">DEC · 2024</div>
+            <div class="t">Smart-Home Threat Modelling</div>
+            <div class="s">IEEE ASSET Workshop</div>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">2024</div>
+            <div class="t">Three student-research seminar talks</div>
+            <div class="s">Institution-internal</div>
+          </div>
+        </section>
+
+        <!-- TEACHING -->
+        <section id="teaching" class="cv-section">
+          <div class="cv-section-head">
+            <h2>Teaching</h2>
+            <span class="mono">§ 06</span>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">2024 — PRES.</div>
+            <div>
+              <h3>Organiser · Applied Cryptography Reading Group</h3>
+              <div class="inst">Self-directed, ~12 undergraduates per term</div>
+              <p>Curate a term-long reading list spanning foundational and recent papers. Lead weekly discussions on technical content.</p>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">2023 — 2024</div>
+            <div>
+              <h3>Teaching Assistant · Computer Networks</h3>
+              <div class="inst">Undergraduate course, second year</div>
+              <p>Led weekly lab sections (~40 students), designed three problem sets, and graded final projects.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SERVICE -->
+        <section id="service" class="cv-section">
+          <div class="cv-section-head">
+            <h2>Academic Service</h2>
+            <span class="mono">§ 07</span>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">2025 — PRES.</div>
+            <div class="t">Reviewer · ASSET Workshop (sub-reviewer)</div>
+            <div class="s">2 papers, 2025 cycle</div>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">2023 — PRES.</div>
+            <div class="t">Editor · Student journal of systems research</div>
+            <div class="s">Lightweight peer-reviewed outlet, institution</div>
+          </div>
+          <div class="cv-simple">
+            <div class="cv-date">2022 — 2023</div>
+            <div class="t">Student member · Curriculum review committee</div>
+            <div class="s">CS undergraduate programme</div>
+          </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section id="skills" class="cv-section">
+          <div class="cv-section-head">
+            <h2>Technical Skills</h2>
+            <span class="mono">§ 08</span>
+          </div>
+          <div class="cv-skills">
+            <div class="row"><div class="label">Languages</div><div class="val">Python, C/C++, Rust, Go, TypeScript, Bash</div></div>
+            <div class="row"><div class="label">ML / Research</div><div class="val">PyTorch, JAX, scikit-learn, LaTeX</div></div>
+            <div class="row"><div class="label">Cryptography</div><div class="val">OpenSSL internals, liboqs (PQC), libsodium</div></div>
+            <div class="row"><div class="label">Security Tools</div><div class="val">Wireshark, Burp, Ghidra, radare2, Frida</div></div>
+            <div class="row"><div class="label">Systems</div><div class="val">Linux internals, eBPF, Docker, Kubernetes, Nix</div></div>
+            <div class="row"><div class="label">Cloud</div><div class="val">AWS, GCP (limited), Terraform basics</div></div>
+            <div class="row"><div class="label">Languages spoken</div><div class="val">Sinhala (native), English (native), Tamil (conv.), French (A2)</div></div>
+            <div class="row"><div class="label">Collaboration</div><div class="val">Git, GitHub Actions, Notion, Slack</div></div>
+          </div>
+        </section>
+
+        <!-- REFEREES -->
+        <section id="referees" class="cv-section">
+          <div class="cv-section-head">
+            <h2>Referees</h2>
+            <span class="mono">§ 09 · AVAILABLE ON REQUEST</span>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">Reference A</div>
+            <div>
+              <h3>Prof. [redacted]</h3>
+              <div class="inst">Undergraduate thesis advisor · Department of Computer Science</div>
+              <p>Supervised undergraduate thesis on evasion attacks; can speak to research fundamentals, independence, and technical maturity.</p>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">Reference B</div>
+            <div>
+              <h3>Dr. [redacted]</h3>
+              <div class="inst">Research lead · Security Systems Lab</div>
+              <p>Current RA supervisor; has overseen my contribution to three peer-reviewed venues.</p>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-date">Reference C</div>
+            <div>
+              <h3>Dr. [redacted]</h3>
+              <div class="inst">PQC survey co-author · Regional collaborator</div>
+              <p>Co-author on 2025 survey; can speak to technical writing and cross-institutional collaboration.</p>
+            </div>
+          </div>
+          <p style="margin-top: 1.2rem; color: var(--ink-mute); font-size: 0.9rem; font-style: italic;">
+            Full contact details shared on request via the <a href="contact.html" style="color: var(--crimson); border-bottom: 1px dashed var(--crimson);">contact page</a>.
+          </p>
+        </section>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="wrap">
+    <div>
+      <h4>Colophon</h4>
+      <p>Set in Fraunces for display, Source Serif 4 for reading, JetBrains Mono for technical text. Typeset on a paper-warm palette with crimson and archival-gold accents. Hand-built with HTML &amp; CSS &mdash; no frameworks.</p>
+    </div>
+    <div>
+      <h4>Navigate</h4>
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="research.html">Research</a><a href="publications.html">Publications</a><a href="cv.html">CV</a><a href="contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Elsewhere</h4>
+      <a href="#">Google Scholar</a><a href="#">ORCID</a><a href="#">GitHub</a><a href="#">LinkedIn</a>
+    </div>
+  </div>
+  <div class="meta">
+    <span>© 2026 Mewni Alahakoon · All rights reserved</span>
+    <span>Page V · CV</span>
+  </div>
+</footer>
+
+<script src="transitions.js"></script>
+</body>
+</html>

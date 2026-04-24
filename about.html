@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Mewni Alahakoon</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.page-head {
+  padding: clamp(3rem, 7vw, 5rem) 0 clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--rule);
+}
+.page-head h1 {
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 1;
+}
+.page-head h1 em { color: var(--crimson); font-family: var(--ff-display); font-variation-settings: "opsz" 144, "WONK" 1;}
+
+.page-head-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: clamp(1.5rem, 4vw, 3rem);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.page-head-meta .mono { color: var(--ink-mute); font-size: 0.72rem; }
+
+.bio-layout {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  padding: clamp(2rem, 5vw, 4rem) 0;
+}
+@media (max-width: 900px) { .bio-layout { grid-template-columns: 1fr; } }
+
+.bio-text p {
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 1.3rem;
+}
+.bio-text p:first-of-type:first-letter {
+  font-family: var(--ff-display);
+  font-size: 4.2rem;
+  float: left;
+  line-height: 0.85;
+  margin: 0.1rem 0.65rem 0 0;
+  color: var(--crimson);
+  font-variation-settings: "opsz" 144, "WONK" 1;
+}
+
+.bio-text h3 {
+  margin: 2rem 0 1rem;
+  font-variation-settings: "opsz" 30, "WONK" 1;
+  position: relative;
+  padding-left: 1.2rem;
+}
+.bio-text h3::before {
+  content: '§';
+  position: absolute;
+  left: 0;
+  color: var(--crimson);
+  font-style: italic;
+}
+
+.side-panel {
+  border: 1px solid var(--rule);
+  padding: 1.8rem;
+  background: var(--paper-warm);
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.portrait {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: var(--paper-deep);
+  margin-bottom: 1.2rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portrait svg { width: 80%; height: 80%; }
+
+.quick-facts {
+  font-family: var(--ff-serif);
+  font-size: 0.95rem;
+}
+.quick-facts dt {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-top: 1rem;
+}
+.quick-facts dt:first-child { margin-top: 0; }
+.quick-facts dd { color: var(--ink); margin-top: 0.2rem; }
+.quick-facts dd a { color: var(--crimson); text-decoration: none; border-bottom: 1px dashed var(--crimson); }
+
+/* Timeline */
+.timeline-section {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  border-top: 1px solid var(--rule);
+}
+.timeline {
+  position: relative;
+  margin-top: 2rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 140px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--rule);
+}
+@media (max-width: 700px) { .timeline::before { left: 0; } }
+
+.t-entry {
+  display: grid;
+  grid-template-columns: 120px 40px 1fr;
+  gap: 0;
+  padding: 1.5rem 0;
+  align-items: start;
+}
+@media (max-width: 700px) {
+  .t-entry { grid-template-columns: 20px 1fr; }
+  .t-year { grid-column: 1 / -1; padding-left: 20px; margin-bottom: 0.4rem; }
+}
+
+.t-year {
+  font-family: var(--ff-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  padding-top: 4px;
+}
+.t-node {
+  display: flex;
+  justify-content: center;
+  padding-top: 4px;
+}
+.t-node::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  background: var(--crimson);
+  border: 2px solid var(--paper);
+  outline: 1px solid var(--rule);
+  border-radius: 50%;
+}
+.t-content h4 {
+  font-family: var(--ff-display);
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+  font-variation-settings: "opsz" 30, "WONK" 1;
+}
+.t-content .t-inst {
+  font-family: var(--ff-serif);
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+.t-content p {
+  font-size: 0.98rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+/* Values grid */
+.values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+@media (max-width: 820px) { .values { grid-template-columns: 1fr; } }
+
+.value-card {
+  padding: 2rem 1.8rem;
+  border-right: 1px solid var(--rule);
+}
+.value-card:last-child { border-right: 0; }
+@media (max-width: 820px) {
+  .value-card { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .value-card:last-child { border-bottom: 0; }
+}
+.value-num {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: 3rem;
+  color: var(--crimson);
+  line-height: 1;
+  margin-bottom: 1rem;
+  font-variation-settings: "opsz" 144, "WONK" 1;
+}
+.value-card h3 { margin-bottom: 0.8rem; }
+.value-card p { color: var(--ink-soft); font-size: 0.98rem; line-height: 1.55; }
+
+/* Skills */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  padding: clamp(2rem, 4vw, 3rem) 0;
+}
+@media (max-width: 900px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .skills-grid { grid-template-columns: 1fr; } }
+
+.skill-col h4 {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--rule);
+}
+.skill-col ul {
+  list-style: none;
+}
+.skill-col li {
+  font-family: var(--ff-serif);
+  font-size: 1rem;
+  color: var(--ink);
+  padding: 0.35rem 0;
+}
+
+/* Languages + Teaching */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 3rem);
+  padding: clamp(2rem, 4vw, 3rem) 0;
+}
+@media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+.col-block h3 {
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 1.2rem;
+}
+.lang-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed rgba(26,23,20,0.2);
+}
+.lang-row:last-child { border-bottom: 0; }
+.lang-level { font-family: var(--ff-mono); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--ink-mute); text-transform: uppercase; }
+</style>
+<script>
+/* Seamless page-transition primer — must run before <body>
+<div class="page-curtain-stage" aria-hidden="true">
+  <div class="pc-label">
+    <span class="pc-rule"></span>
+    <span class="pc-section"></span>
+    <h2 class="pc-name"></h2>
+    <span class="pc-meta"></span>
+  </div>
+</div>
+ paints.
+   If the URL hash starts with #__pc= we're arriving from another page:
+   flag the document root so the curtain overlay is opaque immediately. */
+(function () {
+  try {
+    var m = window.location.hash.match(/^#__pc=([a-z0-9._-]+)/i);
+    if (m) {
+      document.documentElement.classList.add('pc-incoming');
+      window.__pcIncomingKey = m[1];
+    }
+  } catch (_) {}
+})();
+</script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
+        <rect x="2" y="2" width="36" height="36" stroke="#1a1714" stroke-width="1.5"/>
+        <path d="M10 28 L10 12 L20 22 L30 12 L30 28" stroke="#a8321c" stroke-width="2" fill="none" stroke-linejoin="miter"/>
+        <circle cx="20" cy="30" r="1.5" fill="#a8321c"/>
+      </svg>
+      <div>
+        <div class="brand-name">Mewni Alahakoon</div>
+        <div class="brand-sub">Cybersecurity · Research Portfolio</div>
+      </div>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navList').classList.toggle('open')">Menu</button>
+    <nav>
+      <ul class="nav-list" id="navList">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="wrap page-head">
+    <div class="page-head-meta reveal reveal-1">
+      <span class="mono">PAGE II · BIOGRAPHICAL</span>
+      <span class="mono">A PORTRAIT IN ROUTE-FINDING</span>
+    </div>
+    <div class="eyebrow reveal reveal-1">About the researcher</div>
+    <h1 class="reveal reveal-2">A brief<br>portrait, in <em>paragraphs</em>.</h1>
+  </section>
+
+  <section class="wrap">
+    <div class="bio-layout">
+      <div class="bio-text reveal reveal-3">
+        <p>
+          I came to cybersecurity the way most people fall into their vocation &mdash; by accident. A badly-secured school wireless network and a copy of <span class="italic">Applied Cryptography</span> from a dusty library shelf began a line of inquiry that has, nearly a decade later, led me to the doorway of doctoral study. The questions have changed scale, but the instinct is the same: to understand how systems fail, and to build the ones that won't.
+        </p>
+        <p>
+          My undergraduate training in computer science sharpened a preference for working in the margins between fields. Cryptography alone is elegant but brittle in deployment; machine learning alone is powerful but epistemically troubled. The seam between them &mdash; where probabilistic systems meet provable guarantees &mdash; is where I have chosen to work.
+        </p>
+
+        <h3>Research temperament</h3>
+        <p>
+          I favour careful, formally-grounded work that doesn't mistake benchmark wins for progress. Much of what passes for "defence" in adversarial ML is, on inspection, empirical patching. I'm interested in the harder question: what can we <span class="italic">prove</span> about a system under an adversary of known budget? That's not always a tractable question, but it is the one worth asking.
+        </p>
+        <p>
+          In practice this means I spend equal hours reading proofs, reading logs, and writing code that breaks things on purpose. I keep a working notebook of failed attacks, because the ones that don't work are usually more informative than the ones that do.
+        </p>
+
+        <h3>Beyond the lab</h3>
+        <p>
+          I teach an informal reading group on applied cryptography for undergraduates at my institution, and I'm the current editor of a small student-run journal on systems research. Outside of work, I run middle-distance, collect out-of-print CS textbooks, and am learning to read classical Sinhala poetry &mdash; a discipline that has taught me more about technical writing than any style guide.
+        </p>
+        <p>
+          If there is one thread through all of this, it is a belief that precision is a form of care &mdash; that whether you are proving a bound, writing a protocol spec, or explaining a result to a first-year student, the effort to be exact is almost always repaid.
+        </p>
+      </div>
+
+      <aside class="side-panel reveal reveal-4">
+        <div class="portrait">
+          <!-- Abstract portrait placeholder — geometric avatar -->
+          <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+            <rect width="200" height="250" fill="#ede5d5"/>
+            <circle cx="100" cy="95" r="42" fill="#1a1714"/>
+            <path d="M35 250 Q35 175 100 175 Q165 175 165 250 Z" fill="#1a1714"/>
+            <circle cx="100" cy="95" r="42" fill="none" stroke="#a8321c" stroke-width="1.5" stroke-dasharray="3 4"/>
+            <text x="100" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#f4efe6" letter-spacing="2">MEWNI · A</text>
+          </svg>
+        </div>
+        <dl class="quick-facts">
+          <dt>Based in</dt>
+          <dd>Negombo, Sri Lanka</dd>
+          <dt>Status</dt>
+          <dd>Applying for PhD · 2026&ndash;27 cycle</dd>
+          <dt>Focus</dt>
+          <dd>Adversarial ML · Applied Cryptography</dd>
+          <dt>Looking for</dt>
+          <dd>Doctoral supervision, research collaborations</dd>
+          <dt>Contact</dt>
+          <dd><a href="contact.html">mewni@research.example</a></dd>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap" style="padding-bottom: 1.5rem;">
+      <div class="eyebrow">§ II · Principles</div>
+      <h2>What guides the work.</h2>
+    </div>
+    <div class="values">
+      <div class="value-card">
+        <div class="value-num">i.</div>
+        <h3>Proofs over patches</h3>
+        <p>
+          Empirical robustness is a starting point, not a result. Where possible, I pursue defences with certifiable guarantees, and treat benchmark performance as diagnostic rather than decisive.
+        </p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">ii.</div>
+        <h3>Honest failure</h3>
+        <p>
+          Negative results are the scaffolding of a field. I document attacks that didn't land and defences that degraded under deployment as carefully as I document success.
+        </p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">iii.</div>
+        <h3>Useful at the edges</h3>
+        <p>
+          Security that only functions on well-provisioned infrastructure leaves too much of the world unprotected. I care about protocols that run on constrained devices and in imperfect deployments.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="wrap timeline-section">
+    <div class="eyebrow">§ III · A Route in Dates</div>
+    <h2 style="margin-bottom: 0.5rem;">Selected milestones.</h2>
+    <p style="color: var(--ink-soft); max-width: 55ch; margin-bottom: 1rem;">
+      The version of my CV that reads left-to-right instead of top-to-bottom.
+    </p>
+    <div class="timeline">
+      <div class="t-entry">
+        <div class="t-year">2026 — PRESENT</div>
+        <div class="t-node"></div>
+        <div class="t-content">
+          <h4>PhD applicant · Doctoral cycle</h4>
+          <div class="t-inst">Applications submitted · US &amp; EU institutions</div>
+          <p>Applying to doctoral programmes in trustworthy machine learning and applied cryptography. Currently working on thesis-direction proposal.</p>
+        </div>
+      </div>
+      <div class="t-entry">
+        <div class="t-year">2024 — 2026</div>
+        <div class="t-node"></div>
+        <div class="t-content">
+          <h4>Research Assistant · Security Systems Lab</h4>
+          <div class="t-inst">Partner institution, Colombo</div>
+          <p>Contributed to three peer-reviewed publications on adversarial detection and lightweight intrusion monitoring in IoT environments.</p>
+        </div>
+      </div>
+      <div class="t-entry">
+        <div class="t-year">2023</div>
+        <div class="t-node"></div>
+        <div class="t-content">
+          <h4>BSc (Hons) · Computer Science</h4>
+          <div class="t-inst">First class honours · GPA 3.94/4.00</div>
+          <p>Thesis: <span class="italic">"Empirical evaluation of evasion attacks on small-model intrusion detectors."</span> Thesis prize, departmental.</p>
+        </div>
+      </div>
+      <div class="t-entry">
+        <div class="t-year">2022</div>
+        <div class="t-node"></div>
+        <div class="t-content">
+          <h4>Summer programme · Cryptographic protocols</h4>
+          <div class="t-inst">Intensive two-week residential workshop</div>
+          <p>First formal exposure to lattice-based cryptography and zero-knowledge proof systems. This is, in retrospect, where the research direction crystallised.</p>
+        </div>
+      </div>
+      <div class="t-entry">
+        <div class="t-year">2020</div>
+        <div class="t-node"></div>
+        <div class="t-content">
+          <h4>Undergraduate entry</h4>
+          <div class="t-inst">BSc Computer Science programme begins</div>
+          <p>First undergraduate year, during a period of global upheaval. An unexpectedly productive time for self-directed reading.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap">
+      <div class="eyebrow">§ IV · Technical Inventory</div>
+      <h2>Tools &amp; proficiencies.</h2>
+    </div>
+    <div class="wrap skills-grid">
+      <div class="skill-col">
+        <h4>Languages</h4>
+        <ul>
+          <li>Python</li>
+          <li>C / C++</li>
+          <li>Rust</li>
+          <li>Go</li>
+          <li>TypeScript</li>
+          <li>Shell (bash, zsh)</li>
+        </ul>
+      </div>
+      <div class="skill-col">
+        <h4>ML / Research</h4>
+        <ul>
+          <li>PyTorch</li>
+          <li>JAX</li>
+          <li>Hugging Face</li>
+          <li>scikit-learn</li>
+          <li>Weights &amp; Biases</li>
+          <li>LaTeX · TikZ</li>
+        </ul>
+      </div>
+      <div class="skill-col">
+        <h4>Security / Crypto</h4>
+        <ul>
+          <li>OpenSSL internals</li>
+          <li>liboqs (PQC)</li>
+          <li>Wireshark · tshark</li>
+          <li>Burp Suite</li>
+          <li>Ghidra · radare2</li>
+          <li>Frida</li>
+        </ul>
+      </div>
+      <div class="skill-col">
+        <h4>Systems</h4>
+        <ul>
+          <li>Linux · eBPF</li>
+          <li>Docker · K8s</li>
+          <li>Nix</li>
+          <li>Git · CI/CD</li>
+          <li>PostgreSQL</li>
+          <li>AWS · GCP</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANGUAGES + TEACHING -->
+  <section class="wrap" style="padding-bottom: clamp(3rem, 6vw, 5rem);">
+    <div class="two-col">
+      <div class="col-block">
+        <h3>Languages</h3>
+        <div class="lang-row"><span>Sinhala</span><span class="lang-level">Native</span></div>
+        <div class="lang-row"><span>English</span><span class="lang-level">Native proficiency</span></div>
+        <div class="lang-row"><span>Tamil</span><span class="lang-level">Conversational</span></div>
+        <div class="lang-row"><span>French</span><span class="lang-level">Reading · A2</span></div>
+      </div>
+      <div class="col-block">
+        <h3>Teaching &amp; Service</h3>
+        <div class="lang-row"><span>Applied Crypto reading group</span><span class="lang-level">2024 — present</span></div>
+        <div class="lang-row"><span>Student journal, editor</span><span class="lang-level">2023 — present</span></div>
+        <div class="lang-row"><span>Undergraduate TA · Networks</span><span class="lang-level">2023 — 2024</span></div>
+        <div class="lang-row"><span>Peer reviewer · Workshop track</span><span class="lang-level">2025 — present</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="wrap">
+    <div>
+      <h4>Colophon</h4>
+      <p>Set in Fraunces for display, Source Serif 4 for reading, JetBrains Mono for technical text. Typeset on a paper-warm palette with crimson and archival-gold accents. Hand-built with HTML &amp; CSS &mdash; no frameworks.</p>
+    </div>
+    <div>
+      <h4>Navigate</h4>
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="research.html">Research</a><a href="publications.html">Publications</a><a href="cv.html">CV</a><a href="contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Elsewhere</h4>
+      <a href="#">Google Scholar</a><a href="#">ORCID</a><a href="#">GitHub</a><a href="#">LinkedIn</a>
+    </div>
+  </div>
+  <div class="meta">
+    <span>© 2026 Mewni Alahakoon · All rights reserved</span>
+    <span>Page II · About</span>
+  </div>
+</footer>
+
+<script src="transitions.js"></script>
+</body>
+</html>

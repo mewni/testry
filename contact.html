@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Mewni Alahakoon</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.page-head {
+  padding: clamp(3rem, 7vw, 5rem) 0 clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--rule);
+}
+.page-head h1 {
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 1;
+}
+.page-head h1 em { color: var(--crimson); font-family: var(--ff-display); font-variation-settings: "opsz" 144, "WONK" 1;}
+.page-head-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: clamp(1.5rem, 4vw, 3rem);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.page-head-meta .mono { color: var(--ink-mute); font-size: 0.72rem; }
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  padding: clamp(2rem, 5vw, 4rem) 0;
+}
+@media (max-width: 820px) { .contact-layout { grid-template-columns: 1fr; } }
+
+.intro-col p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 1.3rem;
+}
+.intro-col p:first-of-type:first-letter {
+  font-family: var(--ff-display);
+  font-size: 4rem;
+  float: left;
+  line-height: 0.85;
+  margin: 0.1rem 0.6rem 0 0;
+  color: var(--crimson);
+  font-variation-settings: "opsz" 144, "WONK" 1;
+}
+
+/* Channel list */
+.channels {
+  margin-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+.channel {
+  display: grid;
+  grid-template-columns: 140px 1fr auto;
+  gap: 1.5rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px dashed rgba(26,23,20,0.18);
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  transition: padding 0.25s ease;
+}
+.channel:hover { padding-left: 0.8rem; }
+.channel:hover .chan-arrow { transform: translate(4px, -4px); color: var(--crimson); }
+@media (max-width: 600px) {
+  .channel { grid-template-columns: 1fr; gap: 0.2rem; }
+}
+
+.chan-label {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.chan-value {
+  font-family: var(--ff-display);
+  font-size: 1.2rem;
+  font-variation-settings: "opsz" 30, "WONK" 1;
+}
+.chan-arrow {
+  font-family: var(--ff-mono);
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: var(--ink);
+}
+
+/* Form */
+.form-panel {
+  border: 1px solid var(--rule);
+  padding: 2rem;
+  background: var(--paper-warm);
+  position: relative;
+}
+.form-panel::before {
+  content: 'CORRESPONDENCE FORM · V.1';
+  position: absolute;
+  top: -0.6rem;
+  left: 1.5rem;
+  background: var(--paper);
+  padding: 0 0.6rem;
+  font-family: var(--ff-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-mute);
+}
+
+.form-panel h3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-variation-settings: "opsz" 30, "WONK" 1;
+}
+
+.field { margin-bottom: 1.3rem; }
+.field label {
+  display: block;
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 0.4rem;
+}
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 0.7rem 0.9rem;
+  font-family: var(--ff-serif);
+  font-size: 1rem;
+  color: var(--ink);
+  border-radius: 2px;
+  transition: border 0.2s ease, background 0.2s ease;
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--crimson);
+  background: #fff;
+}
+.field textarea { resize: vertical; min-height: 110px; font-family: var(--ff-serif); }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 500px) { .field-grid { grid-template-columns: 1fr; } }
+
+.form-panel button[type=submit] {
+  margin-top: 0.5rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.form-note {
+  font-family: var(--ff-serif);
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--ink-mute);
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed rgba(26,23,20,0.2);
+  line-height: 1.5;
+}
+
+/* PGP/signature panel */
+.pgp-strip {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.pgp-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(244,239,230,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244,239,230,0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+.pgp-strip .inner { position: relative; }
+.pgp-strip .mono { color: var(--marker); font-size: 0.7rem; }
+.pgp-strip h3 {
+  color: var(--paper);
+  font-variation-settings: "opsz" 30, "WONK" 1;
+  margin: 0.8rem 0 0.6rem;
+  font-size: 1.5rem;
+}
+.pgp-strip p { color: rgba(244,239,230,0.75); font-size: 0.95rem; line-height: 1.55; margin-bottom: 1rem;}
+.pgp-box {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  background: rgba(244,239,230,0.04);
+  border: 1px dashed rgba(244,239,230,0.25);
+  padding: 1rem;
+  word-break: break-all;
+  color: rgba(244,239,230,0.9);
+  line-height: 1.7;
+}
+
+/* FAQ-like strip */
+.faq-section {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  border-top: 1px solid var(--rule);
+}
+.faq-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+@media (max-width: 820px) { .faq-grid { grid-template-columns: 1fr; } }
+
+.faq-item {
+  padding: 1.3rem 0;
+  border-bottom: 1px solid rgba(26,23,20,0.15);
+}
+.faq-item:first-child { border-top: 1px solid rgba(26,23,20,0.15); }
+
+.faq-item h4 {
+  font-family: var(--ff-display);
+  font-size: 1.15rem;
+  font-variation-settings: "opsz" 30, "WONK" 1;
+  margin-bottom: 0.4rem;
+}
+.faq-item h4::before {
+  content: 'Q.';
+  color: var(--crimson);
+  font-style: italic;
+  margin-right: 0.5rem;
+}
+.faq-item p {
+  font-size: 0.98rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.faq-item p::before {
+  content: 'A.';
+  color: var(--crimson);
+  font-style: italic;
+  font-family: var(--ff-display);
+  margin-right: 0.5rem;
+}
+
+/* Toast for "copied" */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(120%);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.8rem 1.4rem;
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: transform 0.3s ease;
+  z-index: 200;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+<script>
+/* Seamless page-transition primer — must run before <body>
+<div class="page-curtain-stage" aria-hidden="true">
+  <div class="pc-label">
+    <span class="pc-rule"></span>
+    <span class="pc-section"></span>
+    <h2 class="pc-name"></h2>
+    <span class="pc-meta"></span>
+  </div>
+</div>
+ paints.
+   If the URL hash starts with #__pc= we're arriving from another page:
+   flag the document root so the curtain overlay is opaque immediately. */
+(function () {
+  try {
+    var m = window.location.hash.match(/^#__pc=([a-z0-9._-]+)/i);
+    if (m) {
+      document.documentElement.classList.add('pc-incoming');
+      window.__pcIncomingKey = m[1];
+    }
+  } catch (_) {}
+})();
+</script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
+        <rect x="2" y="2" width="36" height="36" stroke="#1a1714" stroke-width="1.5"/>
+        <path d="M10 28 L10 12 L20 22 L30 12 L30 28" stroke="#a8321c" stroke-width="2" fill="none" stroke-linejoin="miter"/>
+        <circle cx="20" cy="30" r="1.5" fill="#a8321c"/>
+      </svg>
+      <div>
+        <div class="brand-name">Mewni Alahakoon</div>
+        <div class="brand-sub">Cybersecurity · Research Portfolio</div>
+      </div>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navList').classList.toggle('open')">Menu</button>
+    <nav>
+      <ul class="nav-list" id="navList">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="wrap page-head">
+    <div class="page-head-meta reveal reveal-1">
+      <span class="mono">PAGE VI · CORRESPONDENCE</span>
+      <span class="mono">REPLY WITHIN 48 HRS · USUALLY</span>
+    </div>
+    <div class="eyebrow reveal reveal-1">In conversation</div>
+    <h1 class="reveal reveal-2">Let's <em>correspond</em>.</h1>
+  </section>
+
+  <!-- MAIN LAYOUT -->
+  <section class="wrap">
+    <div class="contact-layout">
+
+      <!-- LEFT: intro + channels -->
+      <div class="intro-col reveal reveal-3">
+        <p>
+          I welcome notes from prospective collaborators, PhD supervisors, programme directors, students wanting advice on entering the field, and anyone working on the intersection of trustworthy ML and applied cryptography. Unsolicited recruitment emails are gracefully declined.
+        </p>
+        <p>
+          The fastest route is email. For sensitive communications, my PGP key is published below. For short questions, LinkedIn or Mastodon both work &mdash; though I check them weekly rather than daily.
+        </p>
+
+        <div class="channels">
+          <a href="mailto:mewni@research.example" class="channel" data-copy="mewni@research.example">
+            <div class="chan-label">Primary · Email</div>
+            <div class="chan-value">mewni@research.example</div>
+            <div class="chan-arrow">→</div>
+          </a>
+          <a href="#" class="channel">
+            <div class="chan-label">Academic · ORCID</div>
+            <div class="chan-value">0000-0002-XXXX-XXXX</div>
+            <div class="chan-arrow">→</div>
+          </a>
+          <a href="#" class="channel">
+            <div class="chan-label">Profile · Scholar</div>
+            <div class="chan-value">Mewni Alahakoon</div>
+            <div class="chan-arrow">→</div>
+          </a>
+          <a href="#" class="channel">
+            <div class="chan-label">Code · GitHub</div>
+            <div class="chan-value">@mewni-a</div>
+            <div class="chan-arrow">→</div>
+          </a>
+          <a href="#" class="channel">
+            <div class="chan-label">Professional · LinkedIn</div>
+            <div class="chan-value">/in/mewni-alahakoon</div>
+            <div class="chan-arrow">→</div>
+          </a>
+          <a href="#" class="channel">
+            <div class="chan-label">Social · Mastodon</div>
+            <div class="chan-value">@mewni@infosec.exchange</div>
+            <div class="chan-arrow">→</div>
+          </a>
+        </div>
+
+        <!-- PGP strip -->
+        <div class="pgp-strip">
+          <div class="inner">
+            <div class="mono">◆ PGP FINGERPRINT · FOR SENSITIVE MATTERS</div>
+            <h3>For confidential correspondence</h3>
+            <p>Use the fingerprint below to verify my public key. Full ASCII-armoured key available on request, and also served at the customary paths (keys.openpgp.org).</p>
+            <div class="pgp-box" id="pgpFp">
+              4F2C · A138 · BD9E · 4271 · EE05<br>
+              9C3A · 10FB · D4D2 · 70C8 · 1133
+            </div>
+            <p style="margin-top: 1rem; margin-bottom: 0; font-size: 0.85rem; color: rgba(244,239,230,0.6); font-style: italic;">
+              Fingerprint shown here for demonstration. Replace with your actual key before publishing.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: form -->
+      <div class="form-panel reveal reveal-4">
+        <h3>Send a note directly.</h3>
+        <form id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="field-grid">
+            <div class="field">
+              <label for="name">Your name</label>
+              <input id="name" name="name" type="text" required>
+            </div>
+            <div class="field">
+              <label for="affiliation">Affiliation</label>
+              <input id="affiliation" name="affiliation" type="text" placeholder="Optional">
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required>
+          </div>
+          <div class="field">
+            <label for="topic">Topic</label>
+            <select id="topic" name="topic">
+              <option>PhD supervision / programme inquiry</option>
+              <option>Research collaboration</option>
+              <option>Paper discussion</option>
+              <option>Teaching / reading group</option>
+              <option>Speaking invitation</option>
+              <option>Press / writing</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required placeholder="A paragraph is usually enough. Feel free to include a link."></textarea>
+          </div>
+          <button type="submit" class="btn">Send correspondence →</button>
+          <p class="form-note">
+            This demo form logs locally &mdash; wire to your preferred backend (Formspree, a static-site form handler, or a small serverless function) before going live.
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="wrap faq-section">
+    <div class="faq-grid">
+      <div>
+        <div class="eyebrow">§ Before you write</div>
+        <h2 style="margin-bottom: 1rem;">A few frequent questions.</h2>
+        <p style="color: var(--ink-soft); max-width: 30ch;">
+          If your question is here, feel free to skip the form entirely.
+        </p>
+      </div>
+      <div>
+        <div class="faq-item">
+          <h4>Are you looking for a PhD position?</h4>
+          <p>Yes &mdash; actively. I'm applying for the 2026&ndash;27 doctoral cycle, focused on adversarial ML and applied cryptography. Happy to discuss supervisor fit, thesis direction, and timelines.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Do you review papers?</h4>
+          <p>I sub-review for venues my advisors delegate to me; I'm not yet a PC member anywhere independently. Please route formal review requests through the venue chairs.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Can I cite an unpublished result of yours?</h4>
+          <p>Please email first &mdash; some in-progress work has embargo conditions attached. I'll usually say yes, with a citation form.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Do you take on student mentees informally?</h4>
+          <p>Yes, with honest capacity caveats. My reading group is the easiest on-ramp; for 1:1 mentorship, please write with a specific question rather than a general ask.</p>
+        </div>
+        <div class="faq-item">
+          <h4>How do I verify a message is really from you?</h4>
+          <p>Important correspondence will be PGP-signed with the fingerprint on this page. If a message claims to be from me but isn't signed, please verify via a channel you already trust.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Signing strip -->
+  <section class="wrap" style="padding: clamp(2rem, 5vw, 4rem) 0; text-align: center; border-top: 1px solid var(--rule);">
+    <p style="font-family: var(--ff-display); font-style: italic; font-size: clamp(1.4rem, 2.5vw, 2rem); line-height: 1.4; max-width: 50ch; margin: 0 auto; font-variation-settings: 'opsz' 80, 'WONK' 1;">
+      "Write briefly, write precisely, and include a link whenever possible."
+    </p>
+    <div class="mono" style="margin-top: 1rem; color: var(--ink-mute); font-size: 0.7rem;">— My only standing request of correspondents —</div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<footer class="colophon">
+  <div class="wrap">
+    <div>
+      <h4>Colophon</h4>
+      <p>Set in Fraunces for display, Source Serif 4 for reading, JetBrains Mono for technical text. Typeset on a paper-warm palette with crimson and archival-gold accents. Hand-built with HTML &amp; CSS &mdash; no frameworks.</p>
+    </div>
+    <div>
+      <h4>Navigate</h4>
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="research.html">Research</a><a href="publications.html">Publications</a><a href="cv.html">CV</a><a href="contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Elsewhere</h4>
+      <a href="#">Google Scholar</a><a href="#">ORCID</a><a href="#">GitHub</a><a href="#">LinkedIn</a>
+    </div>
+  </div>
+  <div class="meta">
+    <span>© 2026 Mewni Alahakoon · All rights reserved</span>
+    <span>Page VI · Contact</span>
+  </div>
+</footer>
+
+<script>
+  // Channel copy-to-clipboard on click (if data-copy)
+  const toast = document.getElementById('toast');
+  function showToast(msg) {
+    toast.textContent = msg || 'Copied to clipboard';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1600);
+  }
+
+  document.querySelectorAll('.channel[data-copy]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const val = el.getAttribute('data-copy');
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(val).then(() => showToast('Email copied · ' + val));
+      } else {
+        window.location.href = 'mailto:' + val;
+      }
+    });
+  });
+
+  // PGP fingerprint copy on click
+  const pgp = document.getElementById('pgpFp');
+  if (pgp) {
+    pgp.style.cursor = 'pointer';
+    pgp.title = 'Click to copy fingerprint';
+    pgp.addEventListener('click', () => {
+      const txt = pgp.innerText.replace(/\s/g, '');
+      if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => showToast('Fingerprint copied'));
+    });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = Object.fromEntries(new FormData(form).entries());
+    console.log('Form submission (demo):', data);
+    showToast('Message drafted · not yet wired to backend');
+    form.reset();
+  }
+</script>
+
+<script src="transitions.js"></script>
+</body>
+</html>

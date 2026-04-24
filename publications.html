@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publications — Mewni Alahakoon</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.page-head {
+  padding: clamp(3rem, 7vw, 5rem) 0 clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--rule);
+}
+.page-head h1 {
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 1;
+}
+.page-head h1 em { color: var(--crimson); font-family: var(--ff-display); font-variation-settings: "opsz" 144, "WONK" 1;}
+.page-head-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: clamp(1.5rem, 4vw, 3rem);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.page-head-meta .mono { color: var(--ink-mute); font-size: 0.72rem; }
+
+/* Filter bar */
+.filter-bar {
+  padding: clamp(1.5rem, 3vw, 2.5rem) 0;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.filter-group {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.filter-chip {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.9rem;
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 999px;
+}
+.filter-chip:hover { color: var(--crimson); border-color: var(--crimson); }
+.filter-chip.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.pub-count {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+
+/* Year groups */
+.year-group {
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  border-bottom: 1px solid var(--rule);
+}
+.year-group:last-of-type { border-bottom: 0; }
+.year-head {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 2rem;
+  align-items: baseline;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+@media (max-width: 700px) {
+  .year-head { grid-template-columns: 1fr; gap: 0.3rem; }
+}
+.year-big {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: var(--crimson);
+  line-height: 1;
+  font-variation-settings: "opsz" 144, "WONK" 1;
+}
+.year-label {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+
+/* Single publication entry */
+.pub {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 1.5rem;
+  padding: 1.8rem 0;
+  border-bottom: 1px dashed rgba(26,23,20,0.18);
+  transition: background 0.25s ease;
+}
+.pub:last-child { border-bottom: 0; }
+.pub:hover { background: var(--paper-warm); padding-left: 1rem; margin-left: -1rem; padding-right: 1rem; margin-right: -1rem; }
+
+.pub-num {
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  padding-top: 6px;
+}
+
+.pub-title {
+  font-family: var(--ff-display);
+  font-size: 1.3rem;
+  line-height: 1.2;
+  font-variation-settings: "opsz" 30, "WONK" 1;
+  margin-bottom: 0.5rem;
+  color: var(--ink);
+}
+.pub-authors {
+  font-family: var(--ff-serif);
+  font-size: 1rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.4rem;
+}
+.pub-authors .me {
+  color: var(--ink);
+  font-weight: 500;
+  border-bottom: 1px solid var(--crimson);
+}
+.pub-venue {
+  font-family: var(--ff-serif);
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  margin-bottom: 0.9rem;
+}
+.pub-venue .vol { font-style: normal; color: var(--crimson); }
+
+.pub-tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+}
+
+.pub-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.pub-link {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--rule);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: transparent;
+}
+.pub-link:hover { color: var(--paper); background: var(--crimson); border-color: var(--crimson); }
+
+.pub-badge {
+  display: inline-block;
+  font-family: var(--ff-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+.badge-award {
+  background: var(--marker);
+  color: var(--ink);
+}
+.badge-preprint {
+  background: var(--paper-deep);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+}
+
+.bib-expand {
+  display: none;
+  margin-top: 0.9rem;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 1.2rem;
+  font-family: var(--ff-mono);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  white-space: pre;
+  overflow-x: auto;
+  border-radius: 2px;
+  position: relative;
+}
+.bib-expand.open { display: block; }
+.bib-expand::before {
+  content: 'BIBTEX';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.8rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--marker);
+}
+
+/* Summary box at bottom */
+.summary-box {
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+@media (max-width: 820px) { .summary-box { grid-template-columns: 1fr; } }
+.summary-box h2 {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-variation-settings: "opsz" 80, "WONK" 1;
+}
+.summary-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+.summary-list .item {
+  padding: 1.2rem;
+  border: 1px solid var(--rule);
+  background: var(--paper-warm);
+}
+.summary-list .item .n {
+  font-family: var(--ff-display);
+  font-size: 2.4rem;
+  font-style: italic;
+  color: var(--crimson);
+  line-height: 1;
+  font-variation-settings: "opsz" 144, "WONK" 1;
+}
+.summary-list .item .l {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-top: 0.6rem;
+}
+</style>
+<script>
+/* Seamless page-transition primer — must run before <body>
+<div class="page-curtain-stage" aria-hidden="true">
+  <div class="pc-label">
+    <span class="pc-rule"></span>
+    <span class="pc-section"></span>
+    <h2 class="pc-name"></h2>
+    <span class="pc-meta"></span>
+  </div>
+</div>
+ paints.
+   If the URL hash starts with #__pc= we're arriving from another page:
+   flag the document root so the curtain overlay is opaque immediately. */
+(function () {
+  try {
+    var m = window.location.hash.match(/^#__pc=([a-z0-9._-]+)/i);
+    if (m) {
+      document.documentElement.classList.add('pc-incoming');
+      window.__pcIncomingKey = m[1];
+    }
+  } catch (_) {}
+})();
+</script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
+        <rect x="2" y="2" width="36" height="36" stroke="#1a1714" stroke-width="1.5"/>
+        <path d="M10 28 L10 12 L20 22 L30 12 L30 28" stroke="#a8321c" stroke-width="2" fill="none" stroke-linejoin="miter"/>
+        <circle cx="20" cy="30" r="1.5" fill="#a8321c"/>
+      </svg>
+      <div>
+        <div class="brand-name">Mewni Alahakoon</div>
+        <div class="brand-sub">Cybersecurity · Research Portfolio</div>
+      </div>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navList').classList.toggle('open')">Menu</button>
+    <nav>
+      <ul class="nav-list" id="navList">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="publications.html" class="active">Publications</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="wrap page-head">
+    <div class="page-head-meta reveal reveal-1">
+      <span class="mono">PAGE IV · PUBLICATIONS</span>
+      <span class="mono">BIBLIOGRAPHY · 2023 — 2026</span>
+    </div>
+    <div class="eyebrow reveal reveal-1">Peer-reviewed work</div>
+    <h1 class="reveal reveal-2">Writing, in <em>the record</em>.</h1>
+  </section>
+
+  <!-- FILTER BAR -->
+  <section class="wrap filter-bar">
+    <div class="filter-group" id="filterGroup">
+      <button class="filter-chip active" data-filter="all">All</button>
+      <button class="filter-chip" data-filter="journal">Journal</button>
+      <button class="filter-chip" data-filter="conference">Conference</button>
+      <button class="filter-chip" data-filter="workshop">Workshop</button>
+      <button class="filter-chip" data-filter="preprint">Preprint</button>
+      <button class="filter-chip" data-filter="thesis">Thesis</button>
+    </div>
+    <div class="pub-count"><span id="visibleCount">7</span> / 7 entries</div>
+  </section>
+
+  <!-- YEAR 2026 -->
+  <section class="wrap year-group">
+    <div class="year-head">
+      <div class="year-big">2026</div>
+      <div class="year-label">— In review / Forthcoming —</div>
+    </div>
+
+    <article class="pub" data-type="workshop">
+      <div class="pub-num">[07]</div>
+      <div>
+        <h3 class="pub-title">Certified Defences for Lightweight Intrusion Detection in Constrained IoT Deployments</h3>
+        <div class="pub-authors"><span class="me">M. Alahakoon</span>, A. Fernando, &amp; R. Perera</div>
+        <div class="pub-venue">ACM AsiaCCS 2026 Workshop on Secure ML for IoT (SeML-IoT '26). <span class="vol">To appear, June 2026.</span></div>
+        <div class="pub-tags">
+          <span class="chip">adversarial-ML</span>
+          <span class="chip">certified-robustness</span>
+          <span class="chip">IoT</span>
+        </div>
+        <div class="pub-actions">
+          <a class="pub-link" href="#">PDF →</a>
+          <a class="pub-link" href="#">Abstract →</a>
+          <button class="pub-link" onclick="this.nextElementSibling.classList.toggle('open')">BibTeX ↓</button>
+          <div class="bib-expand">@inproceedings{alahakoon2026certified,
+  author    = {Alahakoon, Mewni and Fernando, A. and Perera, R.},
+  title     = {Certified Defences for Lightweight Intrusion
+              Detection in Constrained IoT Deployments},
+  booktitle = {Proc. ACM AsiaCCS Workshop on Secure ML for IoT},
+  year      = {2026},
+  note      = {To appear}
+}</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="pub" data-type="preprint">
+      <div class="pub-num">[06]</div>
+      <div>
+        <h3 class="pub-title">A Taxonomy of Failure Modes in MQTT Deployments<span class="pub-badge badge-preprint">Preprint</span></h3>
+        <div class="pub-authors"><span class="me">M. Alahakoon</span> &amp; K. Silva</div>
+        <div class="pub-venue">Preprint · arXiv:2601.XXXXX [cs.CR]. <span class="vol">Submitted to systems venue.</span></div>
+        <div class="pub-tags">
+          <span class="chip">IoT</span>
+          <span class="chip">empirical</span>
+          <span class="chip">protocols</span>
+        </div>
+        <div class="pub-actions">
+          <a class="pub-link" href="#">arXiv →</a>
+          <a class="pub-link" href="#">Replication →</a>
+          <button class="pub-link" onclick="this.nextElementSibling.classList.toggle('open')">BibTeX ↓</button>
+          <div class="bib-expand">@misc{alahakoon2026mqtt,
+  author = {Alahakoon, Mewni and Silva, K.},
+  title  = {A Taxonomy of Failure Modes in MQTT Deployments},
+  year   = {2026},
+  eprint = {2601.XXXXX},
+  archivePrefix = {arXiv}
+}</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- YEAR 2025 -->
+  <section class="wrap year-group">
+    <div class="year-head">
+      <div class="year-big">2025</div>
+      <div class="year-label">— Peer-reviewed —</div>
+    </div>
+
+    <article class="pub" data-type="journal">
+      <div class="pub-num">[05]</div>
+      <div>
+        <h3 class="pub-title">Hybrid Key-Exchange Migration Strategies: A Deployment-Oriented Survey</h3>
+        <div class="pub-authors">J. Wickramasinghe, <span class="me">M. Alahakoon</span>, &amp; N. Jayawardena</div>
+        <div class="pub-venue">South Asian Journal of Cybersecurity, vol. 7, no. 2, pp. 41–68. <span class="vol">DOI: 10.xxxx/sajc.2025.7.2.41</span></div>
+        <div class="pub-tags">
+          <span class="chip">post-quantum</span>
+          <span class="chip">survey</span>
+          <span class="chip">TLS</span>
+        </div>
+        <div class="pub-actions">
+          <a class="pub-link" href="#">PDF →</a>
+          <a class="pub-link" href="#">DOI →</a>
+          <button class="pub-link" onclick="this.nextElementSibling.classList.toggle('open')">BibTeX ↓</button>
+          <div class="bib-expand">@article{wickramasinghe2025hybrid,
+  author  = {Wickramasinghe, J. and Alahakoon, Mewni and Jayawardena, N.},
+  title   = {Hybrid Key-Exchange Migration Strategies: A Deployment-Oriented Survey},
+  journal = {South Asian Journal of Cybersecurity},
+  volume  = {7}, number = {2}, pages = {41--68}, year = {2025}
+}</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="pub" data-type="conference">
+      <div class="pub-num">[04]</div>
+      <div>
+        <h3 class="pub-title">Evaluating Evasion Robustness in Small-Model Network Classifiers</h3>
+        <div class="pub-authors"><span class="me">M. Alahakoon</span> &amp; P. Gunasekara</div>
+        <div class="pub-venue">Proceedings of the 18th International Conference on Network &amp; Systems Security (NSS '25), pp. 312–327.</div>
+        <div class="pub-tags">
+          <span class="chip">adversarial-ML</span>
+          <span class="chip">evaluation</span>
+          <span class="chip">intrusion-detection</span>
+        </div>
+        <div class="pub-actions">
+          <a class="pub-link" href="#">PDF →</a>
+          <a class="pub-link" href="#">Slides →</a>
+          <a class="pub-link" href="#">Code →</a>
+          <button class="pub-link" onclick="this.nextElementSibling.classList.toggle('open')">BibTeX ↓</button>
+          <div class="bib-expand">@inproceedings{alahakoon2025evaluating,
+  author    = {Alahakoon, Mewni and Gunasekara, P.},
+  title     = {Evaluating Evasion Robustness in Small-Model Network Classifiers},
+  booktitle = {Proc. 18th Int'l Conf. on Network and Systems Security (NSS)},
+  pages     = {312--327}, year = {2025}
+}</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- YEAR 2024 -->
+  <section class="wrap year-group">
+    <div class="year-head">
+      <div class="year-big">2024</div>
+      <div class="year-label">— Peer-reviewed · Teaching —</div>
+    </div>
+
+    <article class="pub" data-type="workshop">
+      <div class="pub-num">[03]</div>
+      <div>
+        <h3 class="pub-title">An Empirical Threat Model for Smart-Home Deployments<span class="pub-badge badge-award">Best-paper runner-up</span></h3>
+        <div class="pub-authors"><span class="me">M. Alahakoon</span>, T. de Silva, &amp; M. Herath</div>
+        <div class="pub-venue">IEEE Workshop on Applied Security for Smart Environments (ASSET '24), pp. 88–101.</div>
+        <div class="pub-tags">
+          <span class="chip">IoT</span>
+          <span class="chip">threat-modelling</span>
+          <span class="chip">empirical</span>
+        </div>
+        <div class="pub-actions">
+          <a class="pub-link" href="#">PDF →</a>
+          <a class="pub-link" href="#">Poster →</a>
+          <button class="pub-link" onclick="this.nextElementSibling.classList.toggle('open')">BibTeX ↓</button>
+          <div class="bib-expand">@inproceedings{alahakoon2024asset,
+  author = {Alahakoon, Mewni and de Silva, T. and Herath, M.},
+  title  = {An Empirical Threat Model for Smart-Home Deployments},
+  booktitle = {IEEE Workshop on Applied Security for Smart Environments (ASSET)},
+  pages  = {88--101}, year = {2024}
+}</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="pub" data-type="journal">
+      <div class="pub-num">[02]</div>
+      <div>
+        <h3 class="pub-title">Zero-Knowledge Proofs for Systems Engineers: A Structured Primer</h3>
+        <div class="pub-authors"><span class="me">M. Alahakoon</span></div>
+        <div class="pub-venue">Journal of Computer Science Education Research, vol. 12, no. 3. <span class="vol">Pedagogical note.</span></div>
+        <div class="pub-tags">
+          <span class="chip">ZK</span>
+          <span class="chip">pedagogy</span>
+        </div>
+        <div class="pub-actions">
+          <a class="pub-link" href="#">PDF →</a>
+          <a class="pub-link" href="#">DOI →</a>
+          <button class="pub-link" onclick="this.nextElementSibling.classList.toggle('open')">BibTeX ↓</button>
+          <div class="bib-expand">@article{alahakoon2024zk,
+  author = {Alahakoon, Mewni},
+  title  = {Zero-Knowledge Proofs for Systems Engineers: A Structured Primer},
+  journal = {J. Comp. Sci. Education Research}, volume = {12}, number = {3}, year = {2024}
+}</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- YEAR 2023 -->
+  <section class="wrap year-group">
+    <div class="year-head">
+      <div class="year-big">2023</div>
+      <div class="year-label">— Thesis —</div>
+    </div>
+
+    <article class="pub" data-type="thesis">
+      <div class="pub-num">[01]</div>
+      <div>
+        <h3 class="pub-title">Empirical Evaluation of Evasion Attacks on Small-Model Intrusion Detectors<span class="pub-badge badge-award">Thesis prize</span></h3>
+        <div class="pub-authors"><span class="me">M. Alahakoon</span></div>
+        <div class="pub-venue">BSc (Hons) thesis, Department of Computer Science. <span class="vol">First class honours · Departmental thesis prize.</span></div>
+        <div class="pub-tags">
+          <span class="chip">thesis</span>
+          <span class="chip">adversarial-ML</span>
+          <span class="chip">IDS</span>
+        </div>
+        <div class="pub-actions">
+          <a class="pub-link" href="#">PDF →</a>
+          <a class="pub-link" href="#">Abstract →</a>
+          <button class="pub-link" onclick="this.nextElementSibling.classList.toggle('open')">BibTeX ↓</button>
+          <div class="bib-expand">@mastersthesis{alahakoon2023thesis,
+  author = {Alahakoon, Mewni},
+  title  = {Empirical Evaluation of Evasion Attacks on Small-Model Intrusion Detectors},
+  school = {Department of Computer Science},
+  year   = {2023}, type = {BSc (Hons) Thesis}
+}</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- SUMMARY -->
+  <section class="wrap summary-box">
+    <div>
+      <div class="eyebrow">§ Summary</div>
+      <h2>The list, in brief.</h2>
+      <p style="color: var(--ink-soft); margin-top: 1rem; max-width: 30ch;">
+        A running count, refreshed as papers move through review.
+      </p>
+    </div>
+    <div class="summary-list">
+      <div class="item">
+        <div class="n">07</div>
+        <div class="l">Total entries</div>
+      </div>
+      <div class="item">
+        <div class="n">02</div>
+        <div class="l">Journal articles</div>
+      </div>
+      <div class="item">
+        <div class="n">03</div>
+        <div class="l">Peer-reviewed conferences / workshops</div>
+      </div>
+      <div class="item">
+        <div class="n">02</div>
+        <div class="l">Awards / Best-paper runner-up</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="wrap">
+    <div>
+      <h4>Colophon</h4>
+      <p>Set in Fraunces for display, Source Serif 4 for reading, JetBrains Mono for technical text. Typeset on a paper-warm palette with crimson and archival-gold accents. Hand-built with HTML &amp; CSS &mdash; no frameworks.</p>
+    </div>
+    <div>
+      <h4>Navigate</h4>
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="research.html">Research</a><a href="publications.html">Publications</a><a href="cv.html">CV</a><a href="contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Elsewhere</h4>
+      <a href="#">Google Scholar</a><a href="#">ORCID</a><a href="#">GitHub</a><a href="#">LinkedIn</a>
+    </div>
+  </div>
+  <div class="meta">
+    <span>© 2026 Mewni Alahakoon · All rights reserved</span>
+    <span>Page IV · Publications</span>
+  </div>
+</footer>
+
+<script>
+  // Filter functionality
+  const chips = document.querySelectorAll('.filter-chip');
+  const pubs = document.querySelectorAll('.pub');
+  const countEl = document.getElementById('visibleCount');
+  const total = pubs.length;
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const filter = chip.dataset.filter;
+      let visible = 0;
+      pubs.forEach(p => {
+        const show = filter === 'all' || p.dataset.type === filter;
+        p.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      countEl.textContent = visible;
+
+      // Hide year-groups that have no visible pubs
+      document.querySelectorAll('.year-group').forEach(yg => {
+        const any = yg.querySelectorAll('.pub');
+        let has = false;
+        any.forEach(p => { if (p.style.display !== 'none') has = true; });
+        yg.style.display = has ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+<script src="transitions.js"></script>
+</body>
+</html>

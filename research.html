@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research — Mewni Alahakoon</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.page-head {
+  padding: clamp(3rem, 7vw, 5rem) 0 clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--rule);
+}
+.page-head h1 {
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 1;
+}
+.page-head h1 em { color: var(--crimson); font-family: var(--ff-display); font-variation-settings: "opsz" 144, "WONK" 1;}
+.page-head-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: clamp(1.5rem, 4vw, 3rem);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.page-head-meta .mono { color: var(--ink-mute); font-size: 0.72rem; }
+
+.thesis-statement {
+  padding: clamp(2rem, 5vw, 4rem) 0;
+  border-bottom: 1px solid var(--rule);
+}
+.thesis-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+@media (max-width: 820px) { .thesis-grid { grid-template-columns: 1fr; } }
+
+.thesis-quote {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: clamp(1.6rem, 2.5vw, 2.3rem);
+  line-height: 1.15;
+  color: var(--ink);
+  font-variation-settings: "opsz" 80, "WONK" 1;
+  border-left: 3px solid var(--crimson);
+  padding-left: 1.5rem;
+}
+
+.thesis-body p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 1.2rem;
+}
+.thesis-body p .mark {
+  background: var(--marker);
+  padding: 0 0.25em;
+  color: var(--ink);
+}
+
+/* Area sections */
+.area {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.area:last-of-type { border-bottom: 0; }
+
+.area-head {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2rem;
+}
+@media (max-width: 700px) {
+  .area-head { grid-template-columns: 60px 1fr; }
+  .area-head .area-count { display: none; }
+}
+
+.area-num {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--crimson);
+  font-variation-settings: "opsz" 144, "WONK" 1;
+}
+.area-head h2 {
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  line-height: 1;
+  font-variation-settings: "opsz" 80, "SOFT" 20, "WONK" 1;
+}
+.area-count {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--ink-mute);
+}
+
+.area-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+@media (max-width: 820px) { .area-grid { grid-template-columns: 1fr; } }
+
+.area-descr p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 1.2rem;
+}
+
+.area-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+/* Project list inside an area */
+.project-list { display: flex; flex-direction: column; gap: 0.8rem; }
+
+.project {
+  border: 1px solid var(--rule);
+  padding: 1.3rem 1.5rem;
+  background: var(--paper);
+  transition: all 0.25s ease;
+  position: relative;
+}
+.project:hover {
+  background: var(--paper-warm);
+  transform: translateX(-3px);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.project-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.4rem;
+}
+.project h4 {
+  font-family: var(--ff-display);
+  font-size: 1.15rem;
+  font-variation-settings: "opsz" 30, "WONK" 1;
+}
+.project-status {
+  font-family: var(--ff-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 2px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.status-active { background: var(--cipher); color: var(--paper); }
+.status-review { background: var(--marker); color: var(--ink); }
+.status-shipped { background: var(--ink); color: var(--paper); }
+
+.project p {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin-bottom: 0.6rem;
+}
+.project-meta {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  color: var(--ink-mute);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Method callout */
+.method-callout {
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  padding: 2rem;
+  margin: 3rem 0;
+  position: relative;
+}
+.method-callout::before {
+  content: 'METHOD';
+  position: absolute;
+  top: -0.6rem;
+  left: 1.5rem;
+  background: var(--paper);
+  padding: 0 0.6rem;
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--crimson);
+}
+.method-callout h3 { margin-bottom: 0.8rem; }
+.method-callout p { font-size: 1rem; line-height: 1.6; color: var(--ink-soft); }
+
+/* Collaborators strip */
+.collab {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper-warm);
+}
+@media (max-width: 820px) { .collab { grid-template-columns: repeat(2, 1fr); } }
+
+.collab-cell {
+  padding: 2rem 1.3rem;
+  border-right: 1px solid var(--rule);
+  text-align: center;
+}
+.collab-cell:last-child { border-right: 0; }
+@media (max-width: 820px) {
+  .collab-cell { border-bottom: 1px solid var(--rule); }
+  .collab-cell:nth-child(2) { border-right: 0; }
+}
+.collab-name {
+  font-family: var(--ff-display);
+  font-size: 1.15rem;
+  font-style: italic;
+  font-variation-settings: "opsz" 30, "WONK" 1;
+  line-height: 1.2;
+}
+.collab-role {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-top: 0.5rem;
+}
+
+/* Research diagram — shows intersection of fields */
+.venn-diagram {
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 1;
+}
+</style>
+<script>
+/* Seamless page-transition primer — must run before <body>
+<div class="page-curtain-stage" aria-hidden="true">
+  <div class="pc-label">
+    <span class="pc-rule"></span>
+    <span class="pc-section"></span>
+    <h2 class="pc-name"></h2>
+    <span class="pc-meta"></span>
+  </div>
+</div>
+ paints.
+   If the URL hash starts with #__pc= we're arriving from another page:
+   flag the document root so the curtain overlay is opaque immediately. */
+(function () {
+  try {
+    var m = window.location.hash.match(/^#__pc=([a-z0-9._-]+)/i);
+    if (m) {
+      document.documentElement.classList.add('pc-incoming');
+      window.__pcIncomingKey = m[1];
+    }
+  } catch (_) {}
+})();
+</script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
+        <rect x="2" y="2" width="36" height="36" stroke="#1a1714" stroke-width="1.5"/>
+        <path d="M10 28 L10 12 L20 22 L30 12 L30 28" stroke="#a8321c" stroke-width="2" fill="none" stroke-linejoin="miter"/>
+        <circle cx="20" cy="30" r="1.5" fill="#a8321c"/>
+      </svg>
+      <div>
+        <div class="brand-name">Mewni Alahakoon</div>
+        <div class="brand-sub">Cybersecurity · Research Portfolio</div>
+      </div>
+    </a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navList').classList.toggle('open')">Menu</button>
+    <nav>
+      <ul class="nav-list" id="navList">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="research.html" class="active">Research</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="wrap page-head">
+    <div class="page-head-meta reveal reveal-1">
+      <span class="mono">PAGE III · RESEARCH</span>
+      <span class="mono">THREE AREAS · ONE PROGRAMME</span>
+    </div>
+    <div class="eyebrow reveal reveal-1">A programme of inquiry</div>
+    <h1 class="reveal reveal-2">Research at the<br><em>seam</em> between fields.</h1>
+  </section>
+
+  <!-- THESIS STATEMENT -->
+  <section class="wrap thesis-statement">
+    <div class="thesis-grid">
+      <aside class="thesis-quote reveal reveal-3">
+        I work where provable cryptography meets probabilistic machine learning &mdash; and where neither, on its own, suffices.
+      </aside>
+      <div class="thesis-body reveal reveal-4">
+        <p>
+          The research programme on this page is organised around three areas that look, on the surface, like distinct specialisms: machine learning security, applied cryptography, and systems / network defence. In practice I treat them as aspects of a single question: <span class="mark">what does it mean to trust a system under adversarial pressure</span>, and how do we justify that trust with something stronger than a benchmark?
+        </p>
+        <p>
+          Each area below contains projects at different stages &mdash; some published, some in preparation, some exploratory. I've included the negative results and detours where they were informative. The doctoral programme I'm preparing for extends this thread directly.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AREA 01 -->
+  <section id="ml-security" class="area">
+    <div class="wrap">
+      <div class="area-head">
+        <div class="area-num">01</div>
+        <div>
+          <div class="eyebrow" style="margin-bottom: 0.5rem;">Machine Learning Security</div>
+          <h2>Robustness, certifiable &amp; otherwise.</h2>
+        </div>
+        <div class="area-count">04 PROJECTS · ACTIVE</div>
+      </div>
+
+      <div class="area-grid">
+        <div class="area-descr">
+          <p>
+            Most production ML systems assume their inputs were drawn from the same distribution as their training data. That assumption does not survive contact with an adversary. My work in this area studies when and how that failure becomes tractable &mdash; the regimes where we can actually bound a classifier's behaviour under perturbation, and the regimes where we probably can't.
+          </p>
+          <p>
+            I take a sceptical view of empirical defences: many standard adversarial training approaches fall to slightly stronger attacks within months of publication. I'm more interested in defences with some form of certified bound &mdash; randomised smoothing, Lipschitz-constrained networks, interval-bound propagation &mdash; and in honest characterisation of the accuracy&ndash;robustness trade-off.
+          </p>
+          <div class="area-tags">
+            <span class="chip">adversarial-examples</span>
+            <span class="chip">certified-robustness</span>
+            <span class="chip">evasion</span>
+            <span class="chip">poisoning</span>
+            <span class="chip">randomised-smoothing</span>
+          </div>
+        </div>
+
+        <div class="project-list">
+          <div class="project">
+            <div class="project-top">
+              <h4>Certified detection for lightweight intrusion classifiers</h4>
+              <span class="project-status status-review">Under review</span>
+            </div>
+            <p>Adapting randomised-smoothing techniques to small tabular classifiers typical of on-device network monitoring, with an honest accounting of the robust accuracy drop.</p>
+            <div class="project-meta">2025 — present · AsiaCCS Workshop</div>
+          </div>
+          <div class="project">
+            <div class="project-top">
+              <h4>A failure catalogue of adversarial training on small models</h4>
+              <span class="project-status status-active">In progress</span>
+            </div>
+            <p>Empirical study of where standard adversarial training degrades most sharply in small-parameter regimes. Negative results, intentionally.</p>
+            <div class="project-meta">2025 — present · Paper in draft</div>
+          </div>
+          <div class="project">
+            <div class="project-top">
+              <h4>Evaluation of evasion on small-model detectors (thesis)</h4>
+              <span class="project-status status-shipped">Completed</span>
+            </div>
+            <p>Undergraduate thesis: benchmarking a taxonomy of evasion attacks against lightweight intrusion detection. Awarded departmental thesis prize.</p>
+            <div class="project-meta">2022 — 2023 · Thesis · Prize awarded</div>
+          </div>
+          <div class="project">
+            <div class="project-top">
+              <h4>Poisoning robustness under limited-data regimes</h4>
+              <span class="project-status status-active">Exploratory</span>
+            </div>
+            <p>How does the feasible attack surface shrink when the attacker can only corrupt a small absolute number of samples? A theoretical note, in preparation.</p>
+            <div class="project-meta">2026 — present · Note in preparation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHOD CALLOUT -->
+  <section class="wrap">
+    <div class="method-callout reveal">
+      <h3>A note on methodology.</h3>
+      <p>
+        I try to publish negative results alongside positive ones &mdash; every project above carries, in its supplementary material, the experiments that didn't work. This is partly principled (the field has a reproducibility problem) and partly self-interested: those failures are where most of the actual intellectual content lives. If a defence works on MNIST and CIFAR-10 but not on a realistic deployment benchmark, the gap between them is the paper.
+      </p>
+    </div>
+  </section>
+
+  <!-- AREA 02 -->
+  <section id="crypto" class="area">
+    <div class="wrap">
+      <div class="area-head">
+        <div class="area-num">02</div>
+        <div>
+          <div class="eyebrow" style="margin-bottom: 0.5rem;">Applied Cryptography</div>
+          <h2>Post-quantum, practical.</h2>
+        </div>
+        <div class="area-count">03 PROJECTS · ACTIVE</div>
+      </div>
+
+      <div class="area-grid">
+        <!-- Visual: Venn/geometry diagram showing overlap -->
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <svg class="venn-diagram" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <line x1="0" y1="0" x2="0" y2="6" stroke="#a8321c" stroke-width="0.6" opacity="0.5"/>
+              </pattern>
+              <pattern id="dots2" width="8" height="8" patternUnits="userSpaceOnUse">
+                <circle cx="4" cy="4" r="0.8" fill="#1a1714" opacity="0.4"/>
+              </pattern>
+            </defs>
+            <!-- Left circle: Classical -->
+            <circle cx="150" cy="200" r="130" fill="url(#dots2)" stroke="#1a1714" stroke-width="1.5"/>
+            <!-- Right circle: Lattice -->
+            <circle cx="250" cy="200" r="130" fill="url(#hatch)" stroke="#a8321c" stroke-width="1.5"/>
+            <!-- Labels -->
+            <text x="95" y="205" font-family="Fraunces, serif" font-size="18" font-style="italic" fill="#1a1714">classical</text>
+            <text x="245" y="205" font-family="Fraunces, serif" font-size="18" font-style="italic" fill="#a8321c">lattice</text>
+            <!-- Center label -->
+            <text x="200" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#6b635a" letter-spacing="2">HYBRID REGION</text>
+            <text x="200" y="105" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#6b635a" letter-spacing="2">— DEPLOYABLE —</text>
+            <!-- Connective arrow down to center -->
+            <line x1="200" y1="110" x2="200" y2="175" stroke="#1a1714" stroke-width="0.8" stroke-dasharray="2 3"/>
+            <polygon points="200,180 196,172 204,172" fill="#1a1714"/>
+            <!-- Footer -->
+            <text x="200" y="360" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#6b635a" letter-spacing="2">FIG. 02 · TRANSITIONAL PROTOCOLS</text>
+          </svg>
+        </div>
+
+        <div>
+          <div class="area-descr">
+            <p>
+              The cryptographic community knows that classical assumptions will eventually fail against a sufficiently capable quantum adversary. The open question is practical: how do organisations migrate without breaking compatibility with the billions of endpoints that don't yet speak post-quantum protocols?
+            </p>
+            <p>
+              I work on hybrid schemes &mdash; protocols that combine classical and lattice-based primitives so that an adversary must break both to compromise the session. This is not glamorous work, but it's the work that will actually determine whether the transition happens cleanly.
+            </p>
+            <div class="area-tags">
+              <span class="chip">lattice-crypto</span>
+              <span class="chip">hybrid-TLS</span>
+              <span class="chip">KEM</span>
+              <span class="chip">migration</span>
+            </div>
+          </div>
+
+          <div class="project-list" style="margin-top: 1.5rem;">
+            <div class="project">
+              <div class="project-top">
+                <h4>Hybrid KEM performance in constrained TLS stacks</h4>
+                <span class="project-status status-active">In progress</span>
+              </div>
+              <p>Benchmarking handshake latency for classical/lattice hybrid key exchange on IoT-class hardware, with an emphasis on session resumption.</p>
+              <div class="project-meta">2025 — present</div>
+            </div>
+            <div class="project">
+              <div class="project-top">
+                <h4>Co-author · PQC migration strategies survey</h4>
+                <span class="project-status status-shipped">Published</span>
+              </div>
+              <p>Contributed systems and deployment-timeline analysis to a broader survey published in a regional security journal.</p>
+              <div class="project-meta">2025 · Journal publication</div>
+            </div>
+            <div class="project">
+              <div class="project-top">
+                <h4>Teaching note · Zero-knowledge for systems engineers</h4>
+                <span class="project-status status-shipped">Published</span>
+              </div>
+              <p>A pedagogical note distilling ZK-SNARK / ZK-STARK intuition for engineers without a formal crypto background.</p>
+              <div class="project-meta">2024 · Teaching publication</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AREA 03 -->
+  <section id="systems" class="area">
+    <div class="wrap">
+      <div class="area-head">
+        <div class="area-num">03</div>
+        <div>
+          <div class="eyebrow" style="margin-bottom: 0.5rem;">Systems &amp; Network Security</div>
+          <h2>Defences at the edge.</h2>
+        </div>
+        <div class="area-count">03 PROJECTS · MIXED</div>
+      </div>
+
+      <div class="area-grid">
+        <div class="area-descr">
+          <p>
+            Academic security research has historically concentrated its attention on well-provisioned systems: enterprise networks, cloud infrastructure, modern browsers. But a growing share of the world's computing happens on devices that can't spare a megabyte for a TLS library, let alone a proper intrusion detection stack.
+          </p>
+          <p>
+            This area of my work looks at defences designed <span class="italic">for</span> the edge &mdash; constrained hardware, intermittent connectivity, deployment in environments without dedicated security staff. The question I find myself returning to: what is the minimum complexity a defence can have and still provide a useful guarantee?
+          </p>
+          <div class="area-tags">
+            <span class="chip">IoT-security</span>
+            <span class="chip">lightweight-auth</span>
+            <span class="chip">intrusion-detection</span>
+            <span class="chip">protocols</span>
+          </div>
+        </div>
+
+        <div class="project-list">
+          <div class="project">
+            <div class="project-top">
+              <h4>Smart-environment threat modelling &mdash; empirical study</h4>
+              <span class="project-status status-shipped">Published</span>
+            </div>
+            <p>Field study documenting the realistic attack surface of a representative smart-home deployment, with an emphasis on composition failures rather than novel exploits.</p>
+            <div class="project-meta">2024 · Workshop publication</div>
+          </div>
+          <div class="project">
+            <div class="project-top">
+              <h4>Authenticated broadcast for low-duty-cycle networks</h4>
+              <span class="project-status status-active">In progress</span>
+            </div>
+            <p>Designing a lightweight authenticated-broadcast primitive that tolerates intermittent receivers; aimed at sensor networks with duty cycles measured in minutes.</p>
+            <div class="project-meta">2026 — present</div>
+          </div>
+          <div class="project">
+            <div class="project-top">
+              <h4>A taxonomy of failure modes in MQTT deployments</h4>
+              <span class="project-status status-review">Under review</span>
+            </div>
+            <p>Empirical review of configuration failures observed across an anonymised corpus of real deployments; a mix of documentation gaps and protocol-level brittleness.</p>
+            <div class="project-meta">2025 — 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLABORATORS -->
+  <section style="padding: clamp(2rem, 5vw, 4rem) 0;">
+    <div class="wrap" style="padding-bottom: 1.5rem;">
+      <div class="eyebrow">§ IV · Collaborators &amp; Mentors</div>
+      <h2 style="margin-bottom: 0.5rem;">A grateful record.</h2>
+      <p style="color: var(--ink-soft); max-width: 55ch;">
+        Names redacted where appropriate; available on request for search committees and collaborators.
+      </p>
+    </div>
+    <div class="collab">
+      <div class="collab-cell">
+        <div class="collab-name">Prof. [redacted]</div>
+        <div class="collab-role">Thesis advisor · 2022–23</div>
+      </div>
+      <div class="collab-cell">
+        <div class="collab-name">Dr. [redacted]</div>
+        <div class="collab-role">Research lead · lab, 2024–26</div>
+      </div>
+      <div class="collab-cell">
+        <div class="collab-name">Dr. [redacted]</div>
+        <div class="collab-role">PQC survey co-author</div>
+      </div>
+      <div class="collab-cell">
+        <div class="collab-name">Partner lab</div>
+        <div class="collab-role">IoT empirical study</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="wrap">
+    <div>
+      <h4>Colophon</h4>
+      <p>Set in Fraunces for display, Source Serif 4 for reading, JetBrains Mono for technical text. Typeset on a paper-warm palette with crimson and archival-gold accents. Hand-built with HTML &amp; CSS &mdash; no frameworks.</p>
+    </div>
+    <div>
+      <h4>Navigate</h4>
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="research.html">Research</a><a href="publications.html">Publications</a><a href="cv.html">CV</a><a href="contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Elsewhere</h4>
+      <a href="#">Google Scholar</a><a href="#">ORCID</a><a href="#">GitHub</a><a href="#">LinkedIn</a>
+    </div>
+  </div>
+  <div class="meta">
+    <span>© 2026 Mewni Alahakoon · All rights reserved</span>
+    <span>Page III · Research</span>
+  </div>
+</footer>
+
+<script src="transitions.js"></script>
+</body>
+</html>
